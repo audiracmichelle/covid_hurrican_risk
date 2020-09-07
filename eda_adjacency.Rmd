@@ -1,0 +1,127 @@
+
+```{r}
+library(tidyverse)
+library(feather)
+library(magrittr)
+library(usmap)
+library(cowplot)
+```
+
+```{r}
+adjacency <- read_csv("./adjacency.csv")
+county_desc <- read_feather("./county_desc.feather")
+
+texas_fips <- county_desc %>% 
+  filter(state_code == "TX") %>% pull(fips)
+
+adjacency %<>% 
+  mutate(source_fips = as.character(source_fips), 
+         target_fips = as.character(target_fips))
+
+adjacency %<>% 
+  left_join(county_desc %>% 
+              distinct(fips, pop) %>% 
+              rename(source_fips = fips,
+                     source_pop = pop)) 
+
+#write_feather(adjacency, "./adjacency.feather")
+```
+
+## Reception centers
+
+Evacuation counties mapped to reception counties
+
+```{r}
+tf <- unique(adjacency$target_county)
+tf
+```
+
+```{r}
+plots <- list()
+for(x in tf) {
+  source <- adjacency %>% 
+    filter(target_county == x) %>% 
+    select(source_fips) %>% 
+    rename(fips = source_fips) %>% 
+    mutate(type = "source")
+  
+  target <- adjacency %>% 
+    filter(target_county == x) %>% 
+    distinct(target_fips) %>% 
+    rename(fips = target_fips) %>% 
+    mutate(type = "target")
+  
+  county_map <- rbind(target, source)
+  
+  plots[[x]] <- plot_usmap(data = county_map, 
+                           include = texas_fips, 
+                           values = "type") + 
+    labs(title = x)  + 
+  guides(fill = FALSE)
+}
+
+prow1 <- plot_grid(plots[[1]],plots[[2]],plots[[3]], ncol = 3)
+prow2 <- plot_grid(plots[[4]],plots[[5]],plots[[6]], ncol = 3)
+plot_grid(prow1,prow2,nrow = 2)
+ggsave("./reception_centers.png", width = 6, height = 4)
+```
+
+```{r}
+adjacency %>% 
+  group_by(target_fips, target_county) %>% 
+  summarise(num_sister_counties = n(), 
+            pop_in_sister_counties = sum(source_pop)) %>% 
+  arrange(desc(pop_in_sister_counties))
+```
+
+## Emergency scenarios 
+
+Six hypothetical scenarios representing mandatory and voluntary evacuation orders.
+
+https://www.directenergy.com/learning-center/hurricane#:~:text=How%20far%20inland%20do%20hurricanes,mph%20winds)%20or%20tropical%20depression.
+
+On average, the diameter of hurricane-force winds is about 100 miles. Slower speed winds further out from the storm center increase the storm system's diameter on average 300 to 400 miles across. And the eye of the hurricane is 30 miles in diameter.
+
+Hurricane force wind strength is rated according to the Saffir-Simpson Hurricane Wind Scale. 
+
+Hurricanes can travel up to 100 – 200 miles inland.
+
+```{r}
+scenarios <- adjacency %>% 
+  select(-reception_center) %>% 
+  pivot_longer(cols = starts_with("scenario"), 
+               names_to = "scenario", 
+               values_to = "evacuation_type", 
+               values_drop_na = TRUE, names_prefix = "scenario_")
+
+write_feather(scenarios, "./scenarios.feather")
+```
+
+```{r}
+plots <- list()
+for(x in sort(unique(scenarios$scenario))) {
+  county_map <- scenarios %>% 
+    filter(scenario == x) %>% 
+    rename(fips = source_fips) 
+  
+  plots[[x]] <- plot_usmap(data = county_map, 
+                           include = texas_fips, 
+                           values = "evacuation_type") + 
+    labs(title = x)  + 
+    guides(fill = FALSE)
+}
+
+prow1 <- plot_grid(plots[[1]],plots[[2]],plots[[3]], ncol = 3)
+prow2 <- plot_grid(plots[[4]],plots[[5]],plots[[6]], ncol = 3)
+plot_grid(prow1,prow2,nrow = 2)
+ggsave("./scenarios.png", width = 6, height = 4)
+```
+
+```{r}
+scenarios %>% 
+  distinct(scenario, source_fips, evacuation_type, source_pop) %>% 
+  group_by(scenario) %>% 
+  summarise(num_emergency_counties = n(), 
+            num_mandatory = sum(evacuation_type == "mandatory"), 
+            num_voluntary = sum(evacuation_type == "voluntary"))
+```

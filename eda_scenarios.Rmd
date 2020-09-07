@@ -1,0 +1,103 @@
+
+```{r}
+library(tidyverse)
+library(feather)
+library(magrittr)
+library(usmap)
+
+params <- list()
+params$reception_prop = 0.4 #proportion of evacuees who go to counties with reception centers
+```
+
+```{r}
+scenarios <- read_feather("./scenarios.feather")
+hazard <- read_feather("./hazard.feather")
+county_desc <- read_feather("./county_desc.feather")
+
+texas_fips <- county_desc %>% 
+  filter(state_code == "TX") %>% pull(fips)
+
+scenarios %<>% 
+  left_join(hazard %>% 
+              select(-county) %>% 
+              rename(source_fips = fips))
+```
+
+```{r}
+scenario_ <- "1"
+
+county_map <- scenarios %>% 
+  filter(scenario == scenario_) %>% 
+  select(-target_county, -target_fips) %>% 
+  distinct_all() %>% 
+  mutate(evacuee_prop = prop_voluntary,  
+         evacuee_prop = if_else(evacuation_type == "mandatory", 
+                                prop_mandatory, evacuee_prop), 
+         evacuee_prop = if_else(source_fips == "48201", 
+                                evacuee_prop * 0.1, 
+                                evacuee_prop),
+         evacuations = evacuee_prop * source_pop, 
+         exportations = evacuations * prevalence) %>% 
+  rename(fips = source_fips)
+
+county_map %>% 
+  select(source_county, source_pop, evacuation_type, evacuee_prop, evacuations, exportations) %>% 
+  arrange(desc(evacuations))
+
+sum(county_map$evacuations, na.rm = TRUE)
+
+plot_usmap(data = county_map, 
+           include = texas_fips,
+           values = "evacuations")
+```
+
+```{r}
+scenarios %<>% 
+  group_by(scenario, source_fips) %>% 
+  mutate(reception_prop = 1/n()) %>% 
+  ungroup() %>% 
+  mutate(evacuee_prop = prop_voluntary,  
+         evacuee_prop = if_else(evacuation_type == "mandatory", 
+                                prop_mandatory, evacuee_prop), 
+         evacuee_prop = if_else(source_fips == "48201", 
+                                evacuee_prop * 0.1, 
+                                evacuee_prop),
+         evacuees = evacuee_prop * source_pop * reception_prop, 
+         exportations = evacuees * prevalence)
+```
+
+```{r}
+scenario_ <- "1" 
+
+county_map <- scenarios %>% 
+  filter(scenario == 1) %>% 
+  group_by(target_fips, target_county) %>% 
+  summarise(receptions = sum(evacuees) * params$reception_prop, 
+            importations = sum(exportations) * params$reception_prop) %>% 
+  rename(fips = target_fips)
+
+county_map
+
+sum(county_map$receptions)
+
+plot_usmap(data = county_map, 
+           include = texas_fips,
+           values = "receptions")
+```
+
+```{r}
+plots <- list()
+for(x in sort(unique(scenarios$scenario))) {
+  county_map <- scenarios %>% 
+  filter(scenario == x) %>% 
+  group_by(target_fips, target_county) %>% 
+  summarise(importations = sum(exportations) * params$reception_prop) %>% 
+  rename(fips = target_fips)
+  
+  plots[[x]] <- plot_usmap(data = county_map, 
+                           include = texas_fips, 
+                           values = "importations") + 
+    labs(title = x)
+}
+plots
+```

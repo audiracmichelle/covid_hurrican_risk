@@ -1,0 +1,202 @@
+
+```{r, include=FALSE}
+library(tidyverse)
+library(magrittr)
+library(feather)
+library(usmap)
+library(viridis)
+#library(gridExtra)
+```
+
+## county_desc
+
+```{r}
+county_desc <- read_feather("./county_desc.feather")
+```
+
+```{r}
+summary(county_desc)
+```
+
+## county_raw
+
+```{r}
+source("./county_raw.R")
+```
+
+```{r}
+min(county_raw$date, na.rm = TRUE)
+max(county_raw$date, na.rm = TRUE)
+```
+
+```{r}
+# Counties with NA cases in county_counts. This might be because there are no cases or the county ID is not available in the raw data
+
+county_map <- county_raw %>% 
+  distinct(fips, county) %>% 
+  mutate(no_counts = as.factor(!is.na(county)))
+
+table(county_map$no_counts)
+
+plot_usmap(data = county_map, values = "no_counts") +
+  theme(legend.position = "right") + 
+  scale_fill_manual(values=c("red", "white")) +
+  theme(legend.title = element_blank())
+```
+
+## county_clean
+
+```{r}
+source("./county_clean.R")
+```
+
+```{r}
+min(county_clean$date, na.rm = TRUE)
+max(county_clean$date, na.rm = TRUE)
+```
+
+```{r}
+county_clean %>% 
+  filter(index_desc == 1) %>% summary()
+```
+
+```{r}
+county_map <- county_clean %>% 
+  filter(index_desc == 1, 
+         cum_cases_per_cap > 0) %>% 
+  mutate(cum_cases_per_cap = log(cum_cases_per_cap))
+
+plot_usmap(data = county_map,  
+           include = county_map$fips, values = "cum_cases_per_cap") +
+  theme(legend.position = "right") + 
+  theme(legend.title = element_blank()) +
+  scale_fill_viridis()
+```
+
+```{r}
+county_map <- county_clean %>% 
+  filter(index_desc == 1, 
+         cum_deaths_per_cap > 0) %>% 
+  mutate(cum_deaths_per_cap = log(cum_deaths_per_cap))
+
+plot_usmap(data = county_map, 
+           include = county_map$fips, values = "cum_deaths_per_cap") +
+  theme(legend.position = "right") + 
+  theme(legend.title = element_blank()) +
+  scale_fill_viridis()
+```
+
+## county_prevalence
+
+```{r}
+county_prevalence <- county_clean 
+
+## Remove timestamps with negative counts
+#length(unique(county_prevalence$fips)); dim(county_prevalence)
+county_prevalence <- county_prevalence[-which(county_prevalence$cases < 0), ]
+#length(unique(county_prevalence$fips)); dim(county_prevalence)
+
+## Compute rolling values
+library(xts)
+
+county_prevalence %<>% 
+  group_by(fips) %>% 
+  arrange(date) %>% 
+  mutate(roll_mean_cases = rollmean(cases, 7, fill = NA, align = "right"), 
+         roll_sum_cases = rollsum(cases, 7, fill = NA, align = "right")) %>% 
+  ungroup() %>% 
+  mutate(infectious_lb = roll_sum_cases * 3, 
+         infectious = roll_sum_cases * 5, 
+         infectious_ub = roll_sum_cases * 10) %>% 
+  mutate(prevalence_lb = infectious_lb / pop,
+         prevalence = infectious / pop,
+         prevalence_ub = infectious_ub / pop)
+```
+
+```{r}
+texas_prevalence <- county_prevalence %>%
+  filter(state == "Texas", 
+         date >= (max(county_prevalence$date) - 7)) %>% 
+  group_by(fips) %>% 
+  summarize(prevalence = mean(prevalence, na.rm = TRUE), 
+            prevalence_lb = mean(prevalence_lb, na.rm = TRUE), 
+            prevalence_up = mean(prevalence, na.rm = TRUE)) 
+
+write_feather(texas_prevalence, "./texas_prevalence.feather")
+```
+
+```{r}
+# -----> quick call for help from Lauren
+
+library(plotly)
+ggplotly(county_prevalence %>%
+           filter(fips == "48453") %>% 
+           select(date, 
+                  contains("infectious")) %>% 
+           gather(key = "key", value = "value", -date) %>% 
+           ggplot() +
+           geom_line(aes(x = date, y = value, color = key)) + 
+           labs(title = "Travis"))
+```
+
+```{r}
+library(lubridate)
+xx <- county_prevalence %>%
+  filter(date >= (as.Date("2020-08-27") - 7)) %>% 
+  group_by(fips, county, state, pop) %>% 
+  summarize(prevalence_mu = mean(prevalence, na.rm = TRUE), 
+            importations_lb = mean(prevalence_lb, na.rm = TRUE) * 1500, 
+            importations = mean(prevalence, na.rm = TRUE) * 1500, 
+            importations_up = mean(prevalence_ub, na.rm = TRUE) * 1500) 
+xx %>% filter(fips %in% c("48167", "48245"))
+```
+
+```{r}
+county_prevalence %>%
+           filter(fips == "48167") %>% 
+           select(date, 
+                  contains("prevalence")) %>% 
+           gather(key = "key", value = "value", -date) %>% 
+           ggplot() +
+           geom_line(aes(x = date, y = value, color = key)) + 
+           labs(title = "Galvestone")
+```
+
+```{r}
+# Port Arthur
+ggplotly(county_prevalence %>%
+           filter(fips == "48245") %>% 
+           select(date, 
+                  contains("prevalence")) %>% 
+           gather(key = "key", value = "value", -date) %>% 
+           ggplot() +
+           geom_line(aes(x = date, y = value, color = key)) + 
+           labs(title = "Jefferson TX"))
+```
+
+```{r}
+# ----> before making corrections to the adjecency file 
+
+# adjacency <- read_csv("./ref/adjacency.csv")
+# 
+# adjacency %<>% 
+#   mutate(source_fips = as.character(source_fips), 
+#          target_fips = as.character(target_fips))
+# 
+# # Exploring adjacency 
+# from <- c("48167", "48245")
+# to <- c('48021', '48055', '48209', '48453', '48491')
+# 
+# adjacency %>% 
+#   filter(target_fips %in% from)
+# 
+# adjacency %>% 
+#   filter(source_fips %in% from)
+# 
+# adjacency %>% 
+#   filter(target_fips %in% to)
+# 
+# adjacency %>% 
+#   filter(source_fips %in% to)
+
+```

@@ -1,0 +1,43 @@
+row_num,fips,county,category_3,category_4,low_lying
+1,48245,jefferson,4,2,1
+2,48361,orange,4,2,1
+3,48351,newton,,,1
+4,48241,jasper,,,1
+5,48199,hardin,,,1
+6,48071,chambers,4,3,1
+7,48291,liberty,,,1
+8,48167,galveston,4,4,1
+9,48201,harris,3,4,1
+10,48339,montgomery,,,1
+11,48039,brazoria,5,4,1
+12,48157,fort bend,,,1
+13,48473,waller,,,1
+14,48321,matagorda,5,3,1
+15,48481,wharton,,,1
+16,48089,colorado,,,1
+17,48239,jackson,3,1,1
+18,48285,lavaca,,,1
+19,48057,calhoun,4,1,1
+20,48469,victoria,,,1
+21,48007,aransas,5,1,1
+22,48391,refugio,4,1,1
+23,48175,goliad,,,1
+24,48025,bee,,,1
+25,48409,san patricio,5,2,1
+27,48355,nueces,5,2,1
+26,48297,live oak,,,1
+28,48273,kleberg,5,1,1
+29,48261,kenedy,6,1,1
+30,48047,brooks,,,1
+31,48489,willacy,5,1,1
+32,48061,cameron,5,0,1
+33,48215,hidalgo,,,1
+34,48015,austin,,,0
+35,48123,dewitt,,,0
+36,48131,duval,,,0
+37,48249,jim wells,,,0
+38,48311,mcmullen,,,0
+39,48373,polk,,,0
+40,48427,starr,,,0
+41,48457,tyler,,,0
+42,48471,walker,,,0

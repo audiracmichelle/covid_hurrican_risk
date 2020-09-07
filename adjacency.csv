@@ -1,0 +1,121 @@
+source_county,source_fips,target_county,target_fips,reception_center,scenario_1,scenario_2,scenario_3,scenario_4,scenario_5,scenario_6
+cameron,48061,webb,48479,,,,,,,mandatory
+hidalgo,48215,webb,48479,,,,,,,mandatory
+starr,48427,webb,48479,,,,,,,voluntary
+willacy,48489,webb,48479,,,,,,voluntary,mandatory
+aransas,48007,webb,48479,,,,,voluntary,mandatory,voluntary
+bee,48025,webb,48479,,,,,voluntary,mandatory,voluntary
+brooks,48047,webb,48479,,,,,,voluntary,mandatory
+duval,48131,webb,48479,,,,,,voluntary,
+jim wells,48249,webb,48479,,,,,,voluntary,voluntary
+brazoria,48039,travis,48453,Austin,voluntary,mandatory,voluntary,,,
+kenedy,48261,webb,48479,,,,,,voluntary,mandatory
+kleberg,48273,webb,48479,,,,,voluntary,mandatory,voluntary
+live oak,48297,webb,48479,,,,,,voluntary,
+mcmullen,48311,webb,48479,,,,,,voluntary,
+nueces,48355,webb,48479,,,,,voluntary,mandatory,voluntary
+refugio,48391,webb,48479,,,,,voluntary,mandatory,voluntary
+san patricio,48409,webb,48479,,,,,voluntary,mandatory,voluntary
+cameron,48061,bexar,48029,San Antonio,,,,,,mandatory
+hidalgo,48215,bexar,48029,San Antonio,,,,,,mandatory
+chambers,48071,travis,48453,Austin,mandatory,mandatory,voluntary,,,
+starr,48427,bexar,48029,San Antonio,,,,,,voluntary
+willacy,48489,bexar,48029,San Antonio,,,,,voluntary,mandatory
+aransas,48007,bexar,48029,San Antonio,,,,voluntary,mandatory,voluntary
+bee,48025,bexar,48029,San Antonio,,,,voluntary,mandatory,voluntary
+brooks,48047,bexar,48029,San Antonio,,,,,voluntary,mandatory
+duval,48131,bexar,48029,San Antonio,,,,,voluntary,
+jim wells,48249,bexar,48029,San Antonio,,,,,voluntary,voluntary
+kenedy,48261,bexar,48029,San Antonio,,,,,voluntary,mandatory
+kleberg,48273,bexar,48029,San Antonio,,,,voluntary,mandatory,voluntary
+live oak,48297,bexar,48029,San Antonio,,,,,voluntary,
+mcmullen,48311,bexar,48029,San Antonio,,,,,voluntary,
+nueces,48355,bexar,48029,San Antonio,,,,voluntary,mandatory,voluntary
+refugio,48391,bexar,48029,San Antonio,,,,voluntary,mandatory,voluntary
+san patricio,48409,bexar,48029,San Antonio,,,,voluntary,mandatory,voluntary
+calhoun,48057,bexar,48029,San Antonio,,,voluntary,mandatory,,
+dewitt,48123,bexar,48029,San Antonio,,,voluntary,mandatory,,
+goliad,48175,bexar,48029,San Antonio,,,voluntary,mandatory,,
+galveston,48167,travis,48453,Austin,mandatory,mandatory,voluntary,,,
+jackson,48239,bexar,48029,San Antonio,,,voluntary,mandatory,,
+lavaca,48285,bexar,48029,San Antonio,,,voluntary,mandatory,,
+victoria,48469,bexar,48029,San Antonio,,,voluntary,mandatory,,
+austin,48015,bexar,48029,San Antonio,,voluntary,voluntary,,,
+colorado,48089,bexar,48029,San Antonio,,voluntary,mandatory,voluntary,,
+fort bend,48157,bexar,48029,San Antonio,,voluntary,mandatory,voluntary,,
+harris,48201,bexar,48029,San Antonio,voluntary,mandatory,voluntary,,,
+matagorda,48321,bexar,48029,San Antonio,,voluntary,mandatory,voluntary,,
+montgomery,48339,bexar,48029,San Antonio,,voluntary,,,,
+walker,48471,bexar,48029,San Antonio,,voluntary,,,,
+waller,48473,bexar,48029,San Antonio,,voluntary,voluntary,,,
+wharton,48481,bexar,48029,San Antonio,,voluntary,mandatory,voluntary,,
+calhoun,48057,travis,48453,Austin,,,voluntary,mandatory,,
+dewitt,48123,travis,48453,Austin,,,voluntary,mandatory,,
+goliad,48175,travis,48453,Austin,,,voluntary,mandatory,,
+jackson,48239,travis,48453,Austin,,,voluntary,mandatory,,
+lavaca,48285,travis,48453,Austin,,,voluntary,mandatory,,
+victoria,48469,travis,48453,Austin,,,voluntary,mandatory,,
+austin,48015,travis,48453,Austin,,voluntary,voluntary,,,
+colorado,48089,travis,48453,Austin,,voluntary,mandatory,voluntary,,
+fort bend,48157,travis,48453,Austin,,voluntary,mandatory,voluntary,,
+harris,48201,travis,48453,Austin,voluntary,mandatory,voluntary,,,
+matagorda,48321,travis,48453,Austin,,voluntary,mandatory,voluntary,,
+montgomery,48339,travis,48453,Austin,,voluntary,,,,
+walker,48471,travis,48453,Austin,,voluntary,,,,
+waller,48473,travis,48453,Austin,,voluntary,voluntary,,,
+wharton,48481,travis,48453,Austin,,voluntary,mandatory,voluntary,,
+calhoun,48057,hays,48209,,,,voluntary,mandatory,,
+dewitt,48123,hays,48209,,,,voluntary,mandatory,,
+goliad,48175,hays,48209,,,,voluntary,mandatory,,
+jackson,48239,hays,48209,,,,voluntary,mandatory,,
+lavaca,48285,hays,48209,,,,voluntary,mandatory,,
+victoria,48469,hays,48209,,,,voluntary,mandatory,,
+austin,48015,mclennan,48309,,,voluntary,voluntary,,,
+colorado,48089,mclennan,48309,,,voluntary,mandatory,voluntary,,
+fort bend,48157,mclennan,48309,,,voluntary,mandatory,voluntary,,
+harris,48201,mclennan,48309,,voluntary,mandatory,voluntary,,,
+matagorda,48321,mclennan,48309,,,voluntary,mandatory,voluntary,,
+montgomery,48339,mclennan,48309,,,voluntary,,,,
+walker,48471,mclennan,48309,,,voluntary,,,,
+waller,48473,mclennan,48309,,,voluntary,voluntary,,,
+wharton,48481,mclennan,48309,,,voluntary,mandatory,voluntary,,
+austin,48015,dallas,48113,Dallas-Fort Worth,,voluntary,voluntary,,,
+colorado,48089,dallas,48113,Dallas-Fort Worth,,voluntary,mandatory,voluntary,,
+fort bend,48157,dallas,48113,Dallas-Fort Worth,,voluntary,mandatory,voluntary,,
+harris,48201,dallas,48113,Dallas-Fort Worth,voluntary,mandatory,voluntary,,,
+matagorda,48321,dallas,48113,Dallas-Fort Worth,,voluntary,mandatory,voluntary,,
+montgomery,48339,dallas,48113,Dallas-Fort Worth,,voluntary,,,,
+walker,48471,dallas,48113,Dallas-Fort Worth,,voluntary,,,,
+waller,48473,dallas,48113,Dallas-Fort Worth,,voluntary,voluntary,,,
+wharton,48481,dallas,48113,Dallas-Fort Worth,,voluntary,mandatory,voluntary,,
+brazoria,48039,dallas,48113,Dallas-Fort Worth,voluntary,mandatory,voluntary,,,
+polk,48373,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+polk,48373,nacogdoches,48347,,mandatory,voluntary,,,,
+tyler,48457,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+tyler,48457,nacogdoches,48347,,mandatory,voluntary,,,,
+chambers,48071,dallas,48113,Dallas-Fort Worth,mandatory,mandatory,voluntary,,,
+galveston,48167,dallas,48113,Dallas-Fort Worth,mandatory,mandatory,voluntary,,,
+hardin,48199,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+jasper,48241,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+jefferson,48245,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+liberty,48291,dallas,48113,Dallas-Fort Worth,voluntary,mandatory,,,,
+newton,48351,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+orange,48361,dallas,48113,Dallas-Fort Worth,mandatory,voluntary,,,,
+austin,48015,nacogdoches,48347,,,voluntary,voluntary,,,
+colorado,48089,nacogdoches,48347,,,voluntary,mandatory,voluntary,,
+fort bend,48157,nacogdoches,48347,,,voluntary,mandatory,voluntary,,
+harris,48201,nacogdoches,48347,,voluntary,mandatory,voluntary,,,
+matagorda,48321,nacogdoches,48347,,,voluntary,mandatory,voluntary,,
+montgomery,48339,nacogdoches,48347,,,voluntary,,,,
+walker,48471,nacogdoches,48347,,,voluntary,,,,
+waller,48473,nacogdoches,48347,,,voluntary,voluntary,,,
+wharton,48481,nacogdoches,48347,,,voluntary,mandatory,voluntary,,
+brazoria,48039,nacogdoches,48347,,voluntary,mandatory,voluntary,,,
+chambers,48071,nacogdoches,48347,,mandatory,mandatory,voluntary,,,
+galveston,48167,nacogdoches,48347,,mandatory,mandatory,voluntary,,,
+hardin,48199,nacogdoches,48347,,mandatory,voluntary,,,,
+jasper,48241,nacogdoches,48347,,mandatory,voluntary,,,,
+jefferson,48245,nacogdoches,48347,,mandatory,voluntary,,,,
+liberty,48291,nacogdoches,48347,,voluntary,mandatory,,,,
+newton,48351,nacogdoches,48347,,mandatory,voluntary,,,,
+orange,48361,nacogdoches,48347,,mandatory,voluntary,,,,

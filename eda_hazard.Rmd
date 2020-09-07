@@ -1,0 +1,137 @@
+
+```{r}
+library(tidyverse)
+library(feather)
+library(magrittr)
+library(usmap)
+library(cowplot)
+```
+
+```{r}
+hazard <- read_csv("./hazard.csv")
+
+county_desc <- read_feather("./county_desc.feather")
+
+texas_fips <- county_desc %>% 
+  filter(state_code == "TX") %>% pull(fips)
+
+hazard %<>% 
+  mutate(fips = as.character(fips))
+```
+
+* the beginning of the Atlantic hurricane database in 1851
+* In a Category 3 hurricane, winds range from 111 to 129 mph
+* During a Category 4 hurricane, winds range from 130 to 156 mph.
+
+```{r}
+111 + (129 - 111)/2
+130 + (156 - 130)/2
+120 / (120 + 143) #to determine weight of category 3 in risk measure
+143 / (120 + 143)
+```
+
+
+```{r}
+# given that hurricanes have hit the county
+summary(hazard$category_3)
+summary(hazard$category_4)
+```
+
+```{r}
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "category_3")
+```
+
+```{r}
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "category_4")
+```
+
+```{r}
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "low_lying")
+```
+
+```{r}
+county_map <- hazard %>% 
+  mutate(num_hurricanes = category_3 + category_4)
+
+plot_usmap(data = county_map, 
+           include = texas_fips,
+           values = "num_hurricanes")
+```
+
+
+```{r}
+hazard %<>% 
+  mutate(risk = 0.45 * category_3 + 0.55 * category_4)
+
+summary(hazard$risk)
+hist(hazard$risk)
+
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "risk")
+```
+
+```{r}
+f_prop_mandatory <- function(risk, low_lying) {
+  prop <- (risk - min(risk, na.rm = TRUE)) / (max(risk, na.rm = TRUE) - min(risk, na.rm = TRUE))
+  no_hurricane <- is.na(hazard$risk)
+  low_lying <- hazard$low_lying == 1
+  prop <- prop * (0.30 - 0.15) + 0.15
+  prop[low_lying & no_hurricane] <- 0.01
+  prop[is.na(prop)] <- 0.00
+
+  prop
+}
+
+f_prop_voluntary <- function(risk, low_lying) {
+  prop <- (risk - min(risk, na.rm = TRUE)) / (max(risk, na.rm = TRUE) - min(risk, na.rm = TRUE))
+  no_hurricane <- is.na(hazard$risk)
+  prop <- prop * (0.03 - 0.01) + 0.01
+  prop[no_hurricane] <- 0.00
+
+  prop
+}
+```
+
+```{r}
+hazard %<>% 
+  mutate(prop_mandatory = f_prop_mandatory(risk, low_lying))
+
+summary(hazard$prop_mandatory)
+
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "prop_mandatory")
+```
+
+```{r}
+hazard %<>% 
+  mutate(prop_voluntary = f_prop_voluntary(risk, prop_voluntary))
+
+summary(hazard$prop_voluntary)
+
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "prop_voluntary")
+```
+
+```{r}
+texas_prevalence <- read_feather("./texas_prevalence.feather")
+
+hazard %<>% 
+  left_join(texas_prevalence)
+
+write_feather(hazard, "./hazard.feather")
+
+summary(hazard$prevalence)
+
+plot_usmap(data = hazard, 
+           include = texas_fips,
+           values = "prevalence")
+```
