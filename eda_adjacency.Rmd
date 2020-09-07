@@ -125,3 +125,23 @@ scenarios %>%
             num_mandatory = sum(evacuation_type == "mandatory"), 
             num_voluntary = sum(evacuation_type == "voluntary"))
 ```
+
+```{r}
+library(networkD3)
+
+name_vec <- c(unique(adjacency$source_county), unique(adjacency$target_county))
+
+nodes <- data.frame(name = name_vec, id = 0:(length(name_vec) - 1))
+
+links <- adjacency %>%
+  left_join(nodes, by = c('source_county' = 'name')) %>%
+  rename(origin_id = id) %>%
+  left_join(nodes, by = c('target_county' = 'name')) %>%
+  rename(dest_id = id)
+
+
+forceNetwork(Links = links, Nodes = nodes, Source = 'origin_id', Target = 'dest_id', 
+             #Value = 'counts', 
+             NodeID = 'name', Group = 'id', zoom = TRUE)
+```
+
