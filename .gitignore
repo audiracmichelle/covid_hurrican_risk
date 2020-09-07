@@ -4,6 +4,9 @@
 ## Jupyter
 **/.ipynb_checkpoints
 
+## Book
+**/book
+
 ## Mac files
 .DS_Store
 
