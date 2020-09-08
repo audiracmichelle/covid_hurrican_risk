@@ -6,6 +6,8 @@ library(magrittr)
 library(usmap)
 library(rgdal)
 library(leaflet)
+library(geosphere)
+library(RColorBrewer)
 
 params <- list()
 params$reception_prop = 0.4 #proportion of evacuees who go to counties with reception centers
@@ -153,3 +155,84 @@ for(x in sort(unique(scenarios$scenario))) {
 }
 plots
 ```
+
+```{r}
+lon_map = setNames(texas_sf@data$lon, texas_sf@data$fips)
+lat_map = setNames(texas_sf@data$lat, texas_sf@data$fips)
+lab_map = setNames(texas_sf@data$CNTY_NM, texas_sf@data$fips)
+dist_map = setNames(texas_sf@data$DIST_NM, texas_sf@data$fips)
+src = tibble(
+  lon=lon_map[scenarios$source_fips],
+  lat=lat_map[scenarios$source_fips]
+)
+dst = tibble(
+  lon=lon_map[scenarios$target_fips],
+  lat=lat_map[scenarios$target_fips]
+)
+flows = gcIntermediate(src, dst, sp = TRUE, addStartEnd = TRUE)
+flows$src = scenarios$source_fips
+flows$dst = scenarios$target_fips
+flows$district = dist_map[scenarios$target_fips]
+flows$exportations = scenarios$exportations
+flows$label = sprintf(
+  "%s -> %s: %.2f",
+  lab_map[flows$src],
+  lab_map[flows$dst],
+  flows$exportations
+)
+```
+
+
+```{r}
+pal = colorFactor(brewer.pal(4, 'Set2'), flows$district)
+
+flows$exportations_ = 1.0 + sqrt(flows$exportations)
+flows$exportations_ = 5 * flows$exportations_ / max(flows$exportations_)
+
+leaflet(
+  options = leafletOptions(
+    zoomControl = FALSE,
+    minZoom = 6,
+    maxZoom = 8,
+    attributionControl = FALSE
+  )
+) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addPolygons(
+    data = subset(texas_sf, fips %in% flows$src),
+    weight = 0.5,
+    color = "lightblue",
+    smoothFactor = 0.5,
+    fillColor = "black",  # pal(texas_sf@data$evacuation_type),
+    label = ~ label,
+    fillOpacity = 0.0
+  ) %>% 
+  addPolylines(
+    data = flows,
+    weight = ~ exportations_,
+    color = ~pal(district),
+    group = ~ district,
+    # weight = 1.0,
+    opacity = 1.0,
+    label = ~ label
+  ) %>% 
+  setMaxBounds(
+    lng1 = -106.24,
+    lat1 = 25.87,
+    lng2 = -92.4,
+    lat2 = 36.6
+  ) %>%
+  addLayersControl(
+    position = "topleft",
+    overlayGroups = unique(flows$district), 
+    options = layersControlOptions(collapsed = FALSE)
+  )
+#  %>% 
+  # addLegend(
+  #   title = "Exportations", 
+  #   'bottomright',
+  #   pal = pal,
+  #   values =  log10(1 + flows$exportations)
+  # )
+```
+
