@@ -116,8 +116,9 @@ county_prevalence %<>%
 ```{r}
 texas_prevalence <- county_prevalence %>% 
   filter(state == "Texas") %>% 
-  select(fips, date, cum_cases, cum_deaths, cases, deaths, 
-         infectious, prevalence)
+  select(fips, date, pop, roll_sum_cases, 
+         infectious, infectious_lb, infectious_ub, 
+         prevalence, prevalence_lb, prevalence_ub)
  
 write_feather(texas_prevalence, "./texas_prevalence.feather")
 ```
@@ -149,14 +150,14 @@ xx %>% filter(fips %in% c("48167", "48245"))
 ```
 
 ```{r}
-county_prevalence %>%
+ggplotly(county_prevalence %>%
            filter(fips == "48167") %>% 
            select(date, 
                   contains("prevalence")) %>% 
            gather(key = "key", value = "value", -date) %>% 
            ggplot() +
            geom_line(aes(x = date, y = value, color = key)) + 
-           labs(title = "Galvestone")
+           labs(title = "Galvestone"))
 ```
 
 ```{r}
