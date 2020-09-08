@@ -16,6 +16,14 @@ scenarios <- read_feather("./scenarios.feather")
 hazard <- read_feather("./hazard.feather")
 county_desc <- read_feather("./county_desc.feather")
 texas_sf = readOGR("./shapefiles/cb_2019_48_cousub_500k.shp")
+coords = read_csv(
+  "./shapefiles/coordinates.csv",
+  col_types = list(fips=col_character())
+)
+
+texas_sf@data = texas_sf@data %>%
+  mutate(fips = paste0(STATEFP, COUNTYFP)) %>% 
+  left_join(coords, by="fips")
 
 texas_fips <- county_desc %>% 
   filter(state_code == "TX") %>% pull(fips)
@@ -53,6 +61,31 @@ sum(county_map$evacuations, na.rm = TRUE)
 plot_usmap(data = county_map, 
            include = texas_fips,
            values = "evacuations")
+```
+
+
+```{r, fig.width=6, fig.height=4}
+leaflet(
+  texas_sf,
+  options = leafletOptions(
+    zoomControl = FALSE,
+    minZoom = 5,
+    maxZoom = 7,
+    attributionControl = FALSE
+  )
+) %>%
+  # addProviderTiles(providers$CartoDB.Positron) %>% 
+  addPolygons(
+    weight = 0.5,
+    smoothFactor = 0.5,
+    fillColor = "grey"
+  ) %>% 
+  setMaxBounds(
+    lng1 = -106.74,
+    lat1 = 25.87,
+    lng2 = -93.4,
+    lat2 = 36.6
+  )
 ```
 
 ```{r}
