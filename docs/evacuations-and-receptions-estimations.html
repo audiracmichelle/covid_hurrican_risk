@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Evacuations estimations | Hurrican Covid Importations Hazard</title>
-  <meta name="description" content="4 Evacuations estimations | Hurrican Covid Importations Hazard" />
+  <title>4 Evacuations and receptions estimations | Hurrican Covid Importations Hazard</title>
+  <meta name="description" content="4 Evacuations and receptions estimations | Hurrican Covid Importations Hazard" />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Evacuations estimations | Hurrican Covid Importations Hazard" />
+  <meta property="og:title" content="4 Evacuations and receptions estimations | Hurrican Covid Importations Hazard" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Evacuations estimations | Hurrican Covid Importations Hazard" />
+  <meta name="twitter:title" content="4 Evacuations and receptions estimations | Hurrican Covid Importations Hazard" />
   
   
   
@@ -52,6 +52,8 @@
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <script src="libs/d3-4.5.0/d3.min.js"></script>
 <script src="libs/forceNetwork-binding-0.4/forceNetwork.js"></script>
+<script src="libs/sankey-1/sankey.js"></script>
+<script src="libs/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script>
 
 
 
@@ -82,7 +84,9 @@
 <li class="chapter" data-level="3.1" data-path="hurricane-scenarios.html"><a href="hurricane-scenarios.html#laura-1"><i class="fa fa-check"></i><b>3.1</b> Laura</a></li>
 <li class="chapter" data-level="3.2" data-path="hurricane-scenarios.html"><a href="hurricane-scenarios.html#other-hypothetical-scenarios"><i class="fa fa-check"></i><b>3.2</b> Other hypothetical scenarios</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="evacuations-estimations.html"><a href="evacuations-estimations.html"><i class="fa fa-check"></i><b>4</b> Evacuations estimations</a></li>
+<li class="chapter" data-level="4" data-path="evacuations-and-receptions-estimations.html"><a href="evacuations-and-receptions-estimations.html"><i class="fa fa-check"></i><b>4</b> Evacuations and receptions estimations</a><ul>
+<li class="chapter" data-level="4.1" data-path="evacuations-and-receptions-estimations.html"><a href="evacuations-and-receptions-estimations.html#laura-2"><i class="fa fa-check"></i><b>4.1</b> Laura</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -100,20 +104,60 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="evacuations-estimations" class="section level1">
-<h1><span class="header-section-number">4</span> Evacuations estimations</h1>
+<div id="evacuations-and-receptions-estimations" class="section level1">
+<h1><span class="header-section-number">4</span> Evacuations and receptions estimations</h1>
 <p><strong>mandatory evacuations</strong></p>
 <ul>
 <li><span class="math inline">\(h\)</span> = hurrican hazard metric</li>
-<li><span class="math inline">\(h*([25\%,40\%])\)</span> if <span class="math inline">\(h&gt;0\)</span></li>
-<li>3% if low lying and <span class="math inline">\(h = 0\)</span></li>
+<li><span class="math inline">\(h*([15\%,30\%])\)</span> if <span class="math inline">\(h&gt;0\)</span></li>
+<li>1% if low lying and <span class="math inline">\(h = 0\)</span></li>
 </ul>
 <p><strong>voluntary evacuations</strong></p>
 <ul>
-<li><span class="math inline">\(h*([1\%,5\%])\)</span> if <span class="math inline">\(h&gt;0\)</span></li>
+<li><span class="math inline">\(h*([1\%,3\%])\)</span> if <span class="math inline">\(h&gt;0\)</span></li>
 <li>0% if <span class="math inline">\(h = 0\)</span></li>
 </ul>
+<p><strong>reception center proportion</strong></p>
+<ul>
+<li>40% of total evacuations</li>
+<li>equal preference for all reception counties</li>
+</ul>
+<div id="laura-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Laura</h2>
+<div id="htmlwidget-816a4ad51fee113500fd" style="width:672px;height:480px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-816a4ad51fee113500fd">{"x":{"links":{"source":[0,1,2,3,3,3,3,0,1,2,4,5,6,7,8,3,0,1,2,4,5,6,7,8],"target":[9,9,9,10,9,11,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13],"value":[1480.8,1365.18745098039,12323.0470588235,862.334781176471,862.334781176471,862.334781176471,862.334781176471,1480.8,1365.18745098039,12323.0470588235,114.414,71.744,10650.0417647059,27.492,3490.36,862.334781176471,1480.8,1365.18745098039,12323.0470588235,114.414,71.744,10650.0417647059,27.492,3490.36]},"nodes":{"name":["brazoria","chambers","galveston","harris","hardin","jasper","jefferson","newton","orange","travis","bexar","mclennan","dallas","nacogdoches"],"group":["brazoria","chambers","galveston","harris","hardin","jasper","jefferson","newton","orange","travis","bexar","mclennan","dallas","nacogdoches"]},"options":{"NodeID":"name","NodeGroup":"name","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":10,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+<table>
+<thead>
+<tr class="header">
+<th align="left">target_county</th>
+<th align="right">receptions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bexar</td>
+<td align="right">862.3348</td>
+</tr>
+<tr class="even">
+<td align="left">dallas</td>
+<td align="right">30385.4211</td>
+</tr>
+<tr class="odd">
+<td align="left">mclennan</td>
+<td align="right">862.3348</td>
+</tr>
+<tr class="even">
+<td align="left">nacogdoches</td>
+<td align="right">30385.4211</td>
+</tr>
+<tr class="odd">
+<td align="left">travis</td>
+<td align="right">16031.3693</td>
+</tr>
+</tbody>
+</table>
 
+</div>
 </div>
             </section>
 
