@@ -69,9 +69,9 @@ plot_usmap(data = county_map,
 
 
 ```{r, fig.width=6, fig.height=4}
-pal = colorBin('PuOr', domain = texas_sf@data$evacuation_type)
+pal = colorFactor('Reds', domain = texas_sf@data$evacuation_type)
 
-m = leaflet(
+leaflet(
   texas_sf,
   options = leafletOptions(
     zoomControl = FALSE,
