@@ -4,6 +4,8 @@ library(tidyverse)
 library(feather)
 library(magrittr)
 library(usmap)
+library(rgdal)
+library(leaflet)
 
 params <- list()
 params$reception_prop = 0.4 #proportion of evacuees who go to counties with reception centers
@@ -13,6 +15,7 @@ params$reception_prop = 0.4 #proportion of evacuees who go to counties with rece
 scenarios <- read_feather("./scenarios.feather")
 hazard <- read_feather("./hazard.feather")
 county_desc <- read_feather("./county_desc.feather")
+texas_sf = readOGR("./shapefiles/cb_2019_48_cousub_500k.shp")
 
 texas_fips <- county_desc %>% 
   filter(state_code == "TX") %>% pull(fips)
@@ -22,6 +25,7 @@ scenarios %<>%
               select(-county) %>% 
               rename(source_fips = fips))
 ```
+
 
 ```{r}
 scenario_ <- "1"
