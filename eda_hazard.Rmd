@@ -124,6 +124,12 @@ plot_usmap(data = hazard,
 ```{r}
 texas_prevalence <- read_feather("./texas_prevalence.feather")
 
+texas_prevalence %<>%
+  filter(date >= (max(texas_prevalence$date) - 7)) %>%
+  group_by(fips) %>%
+  summarize(prevalence = mean(prevalence, na.rm = TRUE),
+            infectious = mean(infectious, na.rm = TRUE))
+
 hazard %<>% 
   left_join(texas_prevalence)
 
