@@ -114,14 +114,11 @@ county_prevalence %<>%
 ```
 
 ```{r}
-texas_prevalence <- county_prevalence %>%
-  filter(state == "Texas", 
-         date >= (max(county_prevalence$date) - 7)) %>% 
-  group_by(fips) %>% 
-  summarize(prevalence = mean(prevalence, na.rm = TRUE), 
-            prevalence_lb = mean(prevalence_lb, na.rm = TRUE), 
-            prevalence_up = mean(prevalence, na.rm = TRUE)) 
-
+texas_prevalence <- county_prevalence %>% 
+  filter(state == "Texas") %>% 
+  select(fips, date, cum_cases, cum_deaths, cases, deaths, 
+         infectious, prevalence)
+ 
 write_feather(texas_prevalence, "./texas_prevalence.feather")
 ```
 
