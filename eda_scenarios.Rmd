@@ -15,15 +15,16 @@ params$reception_prop = 0.4 #proportion of evacuees who go to counties with rece
 scenarios <- read_feather("./scenarios.feather")
 hazard <- read_feather("./hazard.feather")
 county_desc <- read_feather("./county_desc.feather")
-texas_sf = readOGR("./shapefiles/cb_2019_48_cousub_500k.shp")
-coords = read_csv(
-  "./shapefiles/coordinates.csv",
-  col_types = list(fips=col_character())
-)
 
-texas_sf@data = texas_sf@data %>%
-  mutate(fips = paste0(STATEFP, COUNTYFP)) %>% 
-  left_join(coords, by="fips")
+texas_sf = readOGR("./shapefiles/County.shp")
+
+texas_sf@data = texas_sf@data %>% 
+  mutate(
+    fips = as.character(CNTY_FIPS),
+    lon = map_dbl(texas_sf@polygons, ~ .x@labpt[1]),
+    lat = map_dbl(texas_sf@polygons, ~ .x@labpt[2]),
+    label = sprintf("%s, %s (%s)", CNTY_NM, DIST_NM, fips)
+  )
 
 texas_fips <- county_desc %>% 
   filter(state_code == "TX") %>% pull(fips)
@@ -56,6 +57,9 @@ county_map %>%
   select(source_county, source_pop, evacuation_type, evacuee_prop, evacuations, exportations) %>% 
   arrange(desc(evacuations))
 
+texas_sf@data = texas_sf@data %>% 
+  left_join(select(county_map, fips, evacuation_type), by="fips")
+
 sum(county_map$evacuations, na.rm = TRUE)
 
 plot_usmap(data = county_map, 
@@ -65,6 +69,8 @@ plot_usmap(data = county_map,
 
 
 ```{r, fig.width=6, fig.height=4}
+pal = colorFactor('Reds', domain = texas_sf@data$evacuation_type)
+
 leaflet(
   texas_sf,
   options = leafletOptions(
@@ -74,17 +80,26 @@ leaflet(
     attributionControl = FALSE
   )
 ) %>%
-  # addProviderTiles(providers$CartoDB.Positron) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(
     weight = 0.5,
+    color = "black",
     smoothFactor = 0.5,
-    fillColor = "grey"
+    fillColor = pal(texas_sf@data$evacuation_type),
+    label = ~ label,
+    fillOpacity = 0.5
   ) %>% 
   setMaxBounds(
     lng1 = -106.74,
     lat1 = 25.87,
     lng2 = -93.4,
     lat2 = 36.6
+  )  %>% 
+  addLegend(
+    title = "Evacuation type", 
+    'bottomright',
+    pal = pal,
+    values = ~ texas_sf@data$evacuation_type
   )
 ```
 
