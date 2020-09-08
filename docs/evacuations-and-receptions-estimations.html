@@ -63,6 +63,12 @@
 <script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
 <script src="libs/sankey-1/sankey.js"></script>
 <script src="libs/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 
 
 
@@ -101,6 +107,16 @@
 <li class="chapter" data-level="5.1" data-path="prevalence.html"><a href="prevalence.html#east-gulf-coast-1"><i class="fa fa-check"></i><b>5.1</b> East Gulf Coast</a></li>
 <li class="chapter" data-level="5.2" data-path="prevalence.html"><a href="prevalence.html#central-gulf-coast-1"><i class="fa fa-check"></i><b>5.2</b> Central Gulf Coast</a></li>
 <li class="chapter" data-level="5.3" data-path="prevalence.html"><a href="prevalence.html#south-gulf-coast-1"><i class="fa fa-check"></i><b>5.3</b> South Gulf Coast</a></li>
+<li class="chapter" data-level="5.4" data-path="prevalence.html"><a href="prevalence.html#on-aug-27"><i class="fa fa-check"></i><b>5.4</b> On Aug 27</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="exportations-and-importations-estimations.html"><a href="exportations-and-importations-estimations.html"><i class="fa fa-check"></i><b>6</b> Exportations and importations estimations</a><ul>
+<li class="chapter" data-level="6.1" data-path="exportations-and-importations-estimations.html"><a href="exportations-and-importations-estimations.html#heuristic-rules-1"><i class="fa fa-check"></i><b>6.1</b> Heuristic rules</a></li>
+<li class="chapter" data-level="6.2" data-path="exportations-and-importations-estimations.html"><a href="exportations-and-importations-estimations.html#laura-3"><i class="fa fa-check"></i><b>6.2</b> Laura</a></li>
+<li class="chapter" data-level="6.3" data-path="exportations-and-importations-estimations.html"><a href="exportations-and-importations-estimations.html#other-scenarios"><i class="fa fa-check"></i><b>6.3</b> Other scenarios</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="results-and-next-steps.html"><a href="results-and-next-steps.html"><i class="fa fa-check"></i><b>7</b> Results and next steps</a><ul>
+<li class="chapter" data-level="7.1" data-path="results-and-next-steps.html"><a href="results-and-next-steps.html#results-so-far"><i class="fa fa-check"></i><b>7.1</b> Results so far</a></li>
+<li class="chapter" data-level="7.2" data-path="results-and-next-steps.html"><a href="results-and-next-steps.html#next-steps"><i class="fa fa-check"></i><b>7.2</b> Next Steps</a></li>
 </ul></li>
 </ul>
 
@@ -172,8 +188,8 @@
 </tr>
 </tbody>
 </table>
-<div id="htmlwidget-b71c35264523696503ef" style="width:672px;height:480px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b71c35264523696503ef">{"x":{"links":{"source":[0,1,2,3,3,3,3,0,1,2,4,5,6,7,8,3,0,1,2,4,5,6,7,8],"target":[9,9,9,10,9,11,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13],"value":[1480.8,1365.18745098039,12323.0470588235,862.334781176471,862.334781176471,862.334781176471,862.334781176471,1480.8,1365.18745098039,12323.0470588235,114.414,71.744,10650.0417647059,27.492,3490.36,862.334781176471,1480.8,1365.18745098039,12323.0470588235,114.414,71.744,10650.0417647059,27.492,3490.36]},"nodes":{"name":["brazoria","chambers","galveston","harris","hardin","jasper","jefferson","newton","orange","travis","bexar","mclennan","dallas","nacogdoches"],"group":["brazoria","chambers","galveston","harris","hardin","jasper","jefferson","newton","orange","travis","bexar","mclennan","dallas","nacogdoches"]},"options":{"NodeID":"name","NodeGroup":"name","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":10,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d05b31e45ce2ca91e89a" style="width:672px;height:480px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d05b31e45ce2ca91e89a">{"x":{"links":{"source":[0,1,2,3,3,3,3,0,1,2,4,5,6,7,8,3,0,1,2,4,5,6,7,8],"target":[9,9,9,10,9,11,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13],"value":[1480.8,1365.18745098039,12323.0470588235,862.334781176471,862.334781176471,862.334781176471,862.334781176471,1480.8,1365.18745098039,12323.0470588235,114.414,71.744,10650.0417647059,27.492,3490.36,862.334781176471,1480.8,1365.18745098039,12323.0470588235,114.414,71.744,10650.0417647059,27.492,3490.36]},"nodes":{"name":["brazoria","chambers","galveston","harris","hardin","jasper","jefferson","newton","orange","travis","bexar","mclennan","dallas","nacogdoches"],"group":["brazoria","chambers","galveston","harris","hardin","jasper","jefferson","newton","orange","travis","bexar","mclennan","dallas","nacogdoches"]},"options":{"NodeID":"name","NodeGroup":"name","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":10,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
